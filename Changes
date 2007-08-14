@@ -1,0 +1,16 @@
+Changelog for Config-INI-Reader
+
+0.005     2007-08-13
+          add finalize method, lazy-load starting section method (this means
+          that you can have starting_section die to prevent properties outside
+          of explicity setting)
+
+          added Config::INI::Writer (largely done by Florian Ragwitz)
+
+          further improved subclassability of Reader (thanks again, Florian!)
+
+0.004     2007-05-12
+          fix asinine error in test, poorly adapted from Config::Tiny
+
+0.003     2007-05-10
+          first release
