@@ -1,8 +1,9 @@
 --- 
 abstract: ~
-author: Ricardo SIGNES, C<< <rjbs@cpan.org> >>
+author: 
+  - Ricardo SIGNES, C<< <rjbs@cpan.org> >>
 distribution_type: module
-generated_by: Module::Install version 0.67
+generated_by: Module::Install version 0.68
 license: perl
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
@@ -16,4 +17,4 @@ requires:
   Carp: 0
   IO::File: 0
   IO::String: 0
-version: 0.007
+version: 0.008
