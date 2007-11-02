@@ -8,6 +8,7 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+lib/Config/INI.pm
 lib/Config/INI/Reader.pm
 lib/Config/INI/Writer.pm
 LICENSE
