@@ -1,5 +1,5 @@
 --- 
-abstract: ~
+abstract: simple .ini-file format
 author: 
   - Ricardo SIGNES, C<< <rjbs@cpan.org> >>
 distribution_type: module
@@ -17,4 +17,4 @@ requires:
   Carp: 0
   IO::File: 0
   IO::String: 0
-version: 0.009
+version: 0.010
