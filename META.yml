@@ -17,4 +17,4 @@ requires:
   Carp: 0
   IO::File: 0
   IO::String: 0
-version: 0.010
+version: 0.011
