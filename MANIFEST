@@ -3,6 +3,7 @@ examples/simple.ini
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
+inc/Module/Install/ExtraTests.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
@@ -17,8 +18,8 @@ MANIFEST			This list of files
 META.yml
 README
 t/00-load.t
-t/pod-coverage.t
-t/pod.t
 t/reader-err.t
 t/reader.t
 t/writer.t
+xt/release/pod-coverage.t
+xt/release/pod.t
