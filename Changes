@@ -1,10 +1,16 @@
 Changelog for Config-INI
 
+0.014     2009-01-16
+          add repo to metadata
+
 0.013     2008-06-05
           refactored some of the read_* write_* stuff to Mixin::Linewise
 
 0.012     2008-04-12
           BUG FIX: allow for different error message on cygwin
+
+0.012     2008-??-??
+          fixed typo in docs (thanks HDP)
 
 0.011     2007-11-19
           BUG FIX: "0" was not a valid section name

@@ -7,4 +7,7 @@ requires('Mixin::Linewise::Writers' => 0.001); # first version
 
 extra_tests;
 
+repository('git://github.com/rjbs/config-ini.git');
+auto_manifest;
+
 WriteAll;

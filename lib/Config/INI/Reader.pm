@@ -9,11 +9,11 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =cut
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 =head1 SYNOPSIS
 
@@ -79,7 +79,7 @@ All throw an exception when they encounter an error.
 
 =head2 read_file
 
-  my $hash_ref = Config::INI::Reader->read($filename);
+  my $hash_ref = Config::INI::Reader->read_file($filename);
 
 Given a filename, this method returns a hashref of the contents of that file.
 
