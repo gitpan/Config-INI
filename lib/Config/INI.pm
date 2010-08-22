@@ -1,4 +1,3 @@
-
 use strict;
 
 package Config::INI;
@@ -9,11 +8,23 @@ Config::INI - simple .ini-file format
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =cut
 
-$Config::INI::VERSION = '0.014';
+$Config::INI::VERSION = '0.015';
+
+=head1 SYNOPSIS
+
+Config-INI comes with code for reading F<.ini> files:
+
+  my $config_hash = Config::INI::Reader->read_file('config.ini');
+
+...and for writing C<.ini> files:
+
+  Config::INI::Writer->write_file({ somekey => 'somevalue' }, 'config.ini');
+
+See L<Config::INI::Writer> and L<Config::INI::Reader> for more examples.
 
 =head1 GRAMMAR
 

@@ -9,11 +9,11 @@ Config::INI::Writer - a subclassable .ini-file emitter
 
 =head1 VERSION
 
-version 0.014
+version 0.015
 
 =cut
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 =head1 SYNOPSIS
 
@@ -33,7 +33,7 @@ If <$hash> contains:
 
 Then when your program contains:
 
-  my $hash = Config::INI::Writer->write_file($hash, 'family.ini');
+  Config::INI::Writer->write_file($hash, 'family.ini');
 
 F<family.ini> will contains:
 
