@@ -1,7 +1,125 @@
 use strict;
 use warnings;
 package Config::INI::Reader;
+BEGIN {
+  $Config::INI::Reader::VERSION = '0.017';
+}
 use Mixin::Linewise::Readers;
+# ABSTRACT: a subclassable .ini-file parser
+
+
+use Carp ();
+use IO::File;
+use IO::String;
+
+our @CARP_NOT = qw(Mixin::Linewise::Readers);
+
+
+sub read_handle {
+  my ($invocant, $handle) = @_;
+
+  my $self = ref $invocant ? $invocant : $invocant->new;
+
+  # parse the file
+  LINE: while (my $line = $handle->getline) {
+    next LINE if $self->can_ignore($line);
+
+    $self->preprocess_line(\$line);
+
+    # Handle section headers
+    if (defined (my $name = $self->parse_section_header($line))) {
+      # Create the sub-hash if it doesn't exist.
+      # Without this sections without keys will not
+      # appear at all in the completed struct.
+      $self->change_section($name);
+      next LINE;
+    }
+
+    if (my ($name, $value) = $self->parse_value_assignment($line)) {
+      $self->set_value($name, $value);
+      next;
+    }
+
+    my $lineno = $handle->input_line_number;
+    Carp::croak "Syntax error at line $lineno: '$line'";
+  }
+
+  $self->finalize;
+
+  return $self->{data};
+}
+
+
+sub current_section {
+  defined $_[0]->{section} ? $_[0]->{section} : $_[0]->starting_section;
+}
+
+
+sub parse_section_header {
+  return $1 if $_[1] =~ /^\s*\[\s*(.+?)\s*\]\s*$/;
+  return;
+}
+
+
+sub change_section {
+  my ($self, $section) = @_;
+
+  $self->{section} = $section;
+
+  if (!exists $self->{data}{$section}) {
+    $self->{data}{$section} = {};
+  }
+}
+
+
+sub parse_value_assignment {
+  return ($1, $2) if $_[1] =~ /^\s*([^=\s][^=]*?)\s*=\s*(.*?)\s*$/;
+  return;
+}
+
+
+sub set_value {
+  my ($self, $name, $value) = @_;
+
+  $self->{data}{ $self->current_section }{$name} = $value;
+}
+
+
+sub starting_section { q{_} }
+
+
+sub can_ignore {
+  my ($self, $line) = @_;
+
+  # Skip comments and empty lines
+  return $line =~ /\A\s*(?:;|$)/ ? 1 : 0;
+}
+
+
+sub preprocess_line {
+  my ($self, $line) = @_;
+
+  # Remove inline comments
+  ${$line} =~ s/\s+;.*$//g;
+}
+
+
+sub finalize { }
+
+
+sub new {
+  my ($class) = @_;
+
+  my $self = { data => {}, };
+
+  bless $self => $class;
+}
+
+
+1;
+
+__END__
+=pod
 
 =head1 NAME
 
@@ -9,11 +127,7 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.016
-
-=cut
-
-our $VERSION = '0.016';
+version 0.017
 
 =head1 SYNOPSIS
 
@@ -58,14 +172,6 @@ The chief difference is that Config::INI::Reader is designed to be subclassed
 to allow for side-effects and self-reconfiguration to occur during the course
 of reading its input.
 
-=cut
-
-use Carp ();
-use IO::File;
-use IO::String;
-
-our @CARP_NOT = qw(Mixin::Linewise::Readers);
-
 =head1 METHODS FOR READING CONFIG
 
 These methods are all that most users will need: they read configuration from a
@@ -98,42 +204,6 @@ Given a string, this method returns a hashref of the contents of that string.
 Given an IO::Handle, this method returns a hashref of the contents of that
 handle.
 
-=cut
-
-sub read_handle {
-  my ($invocant, $handle) = @_;
-
-  my $self = ref $invocant ? $invocant : $invocant->new;
-
-  # parse the file
-  LINE: while (my $line = $handle->getline) {
-    next LINE if $self->can_ignore($line);
-
-    $self->preprocess_line(\$line);
-
-    # Handle section headers
-    if (defined (my $name = $self->parse_section_header($line))) {
-      # Create the sub-hash if it doesn't exist.
-      # Without this sections without keys will not
-      # appear at all in the completed struct.
-      $self->change_section($name);
-      next LINE;
-    }
-
-    if (my ($name, $value) = $self->parse_value_assignment($line)) {
-      $self->set_value($name, $value);
-      next;
-    }
-
-    my $lineno = $handle->input_line_number;
-    Carp::croak "Syntax error at line $lineno: '$line'";
-  }
-
-  $self->finalize;
-
-  return $self->{data};
-}
-
 =head1 METHODS FOR SUBCLASSING
 
 These are the methods you need to understand and possibly change when
@@ -146,12 +216,6 @@ subclassing Config::INI::Reader to handle a different format of input.
 This method returns the name of the current section.  If no section has yet
 been set, it returns the result of calling the C<starting_section> method.
 
-=cut
-
-sub current_section {
-  defined $_[0]->{section} ? $_[0]->{section} : $_[0]->starting_section;
-}
-
 =head2 parse_section_header
 
   my $name = $reader->parse_section_header($line);
@@ -159,13 +223,6 @@ sub current_section {
 Given a line of input, this method decides whether the line is a section-change
 declaration.  If it is, it returns the name of the section to which to change.
 If the line is not a section-change, the method returns false.
-
-=cut
-
-sub parse_section_header {
-  return $1 if $_[1] =~ /^\s*\[\s*(.+?)\s*\]\s*$/;
-  return;
-}
 
 =head2 change_section
 
@@ -176,18 +233,6 @@ This method is called whenever a section change occurs in the file.
 The default implementation is to change the current section into which data is
 being read and to initialize that section to an empty hashref.
 
-=cut
-
-sub change_section {
-  my ($self, $section) = @_;
-
-  $self->{section} = $section;
-
-  if (!exists $self->{data}{$section}) {
-    $self->{data}{$section} = {};
-  }
-}
-
 =head2 parse_value_assignment
 
   my ($name, $value) = $reader->parse_value_assignment($line);
@@ -197,13 +242,6 @@ value assignment.  If it is, it returns the name of the property and the value
 being assigned to it.  If the line is not a property assignment, the method
 returns false.
 
-=cut
-
-sub parse_value_assignment {
-  return ($1, $2) if $_[1] =~ /^\s*([^=\s][^=]*?)\s*=\s*(.*?)\s*$/;
-  return;
-}
-
 =head2 set_value
 
   $reader->set_value($name, $value);
@@ -211,23 +249,11 @@ sub parse_value_assignment {
 This method is called whenever an assignment occurs in the file.  The default
 behavior is to change the value of the named property to the given value.
 
-=cut
-
-sub set_value {
-  my ($self, $name, $value) = @_;
-
-  $self->{data}{ $self->current_section }{$name} = $value;
-}
-
 =head2 starting_section
 
   my $section = Config::INI::Reader->starting_section;
 
 This method returns the name of the starting section.  The default is: C<_>
-
-=cut
-
-sub starting_section { q{_} }
 
 =head2 can_ignore
 
@@ -235,15 +261,6 @@ sub starting_section { q{_} }
 
 This method returns true if the given line of input is safe to ignore.  The
 default implementation ignores lines that contain only whitespace or comments.
-
-=cut
-
-sub can_ignore {
-  my ($self, $line) = @_;
-
-  # Skip comments and empty lines
-  return $line =~ /\A\s*(?:;|$)/ ? 1 : 0;
-}
 
 =head2 preprocess_line
 
@@ -253,25 +270,12 @@ This method is called to preprocess each line after it's read but before it's
 parsed.  The default implementation just strips inline comments.  Alterations
 to the line are made in place.
 
-=cut
-
-sub preprocess_line {
-  my ($self, $line) = @_;
-
-  # Remove inline comments
-  ${$line} =~ s/\s+;.*$//g;
-}
-
 =head2 finalize
 
   $reader->finalize;
 
 This method is called when the reader has finished reading in every line of the
 file.
-
-=cut
-
-sub finalize { }
 
 =head2 new
 
@@ -281,45 +285,20 @@ This method returns a new reader.  This generally does not need to be called by
 anything but the various C<read_*> methods, which create a reader object only
 ephemerally.
 
-=cut
-
-sub new {
-  my ($class) = @_;
-
-  my $self = { data => {}, };
-
-  bless $self => $class;
-}
-
-=head1 TODO
-
-=over
-
-=item * more tests
-
-=back
-
-=head1 BUGS
-
-Bugs should be reported via the CPAN bug tracker at
-
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Config-INI>
-
-For other issues, or commercial enhancement or support, contact the author.
-
-=head1 AUTHOR
-
-Ricardo SIGNES, C<< E<lt>rjbs@cpan.orgE<gt> >>
+=head1 ORIGIN
 
 Originaly derived from L<Config::Tiny>, by Adam Kennedy.
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2007, Ricardo SIGNES.
+Ricardo Signes <rjbs@cpan.org>
 
-This program is free software; you may redistribute it and/or modify it under
-the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2007 by Ricardo Signes.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;

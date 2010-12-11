@@ -1,6 +1,16 @@
 use strict;
-
+use warnings;
 package Config::INI;
+BEGIN {
+  $Config::INI::VERSION = '0.017';
+}
+# ABSTRACT: simple .ini-file format
+
+
+1;
+
+__END__
+=pod
 
 =head1 NAME
 
@@ -8,11 +18,7 @@ Config::INI - simple .ini-file format
 
 =head1 VERSION
 
-version 0.016
-
-=cut
-
-$Config::INI::VERSION = '0.016';
+version 0.017
 
 =head1 SYNOPSIS
 
@@ -79,32 +85,25 @@ Patches, feature requets, and bug reports are welcome -- but I'm more
 interested in making sure you can write a subclass that does what you need, and
 less in making Config-INI do what you want directly.
 
-=head1 BUGS
-
-Bugs should be reported via the CPAN bug tracker at
-
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Config-INI>
-
-For other issues, or commercial enhancement or support, contact the author.
-
 =head1 THANKS
 
 Thanks to Florian Ragwitz for improving the subclassability of Config-INI's
 modules, and for helping me do some of my first merging with git(7).
 
-=head1 AUTHOR
-
-Ricardo SIGNES, C<< E<lt>rjbs@cpan.orgE<gt> >>
+=head1 ORIGIN
 
 Originaly derived from L<Config::Tiny>, by Adam Kennedy.
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2007, Ricardo SIGNES.
+Ricardo Signes <rjbs@cpan.org>
 
-This program is free software; you may redistribute it and/or modify it under
-the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2007 by Ricardo Signes.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;
