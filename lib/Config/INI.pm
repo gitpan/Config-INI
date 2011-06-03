@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Config::INI;
 BEGIN {
-  $Config::INI::VERSION = '0.017';
+  $Config::INI::VERSION = '0.018';
 }
 # ABSTRACT: simple .ini-file format
 
@@ -18,7 +18,7 @@ Config::INI - simple .ini-file format
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 SYNOPSIS
 

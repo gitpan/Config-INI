@@ -2,14 +2,14 @@ use strict;
 use warnings;
 package Config::INI::Reader;
 BEGIN {
-  $Config::INI::Reader::VERSION = '0.017';
+  $Config::INI::Reader::VERSION = '0.018';
 }
 use Mixin::Linewise::Readers;
 # ABSTRACT: a subclassable .ini-file parser
 
 
 use Carp ();
-use IO::File;
+use IO::File 1.14;
 use IO::String;
 
 our @CARP_NOT = qw(Mixin::Linewise::Readers);
@@ -127,7 +127,7 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.017
+version 0.018
 
 =head1 SYNOPSIS
 
