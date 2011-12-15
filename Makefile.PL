@@ -9,28 +9,30 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'simple .ini-file format',
-  'AUTHOR' => 'Ricardo Signes <rjbs@cpan.org>',
-  'BUILD_REQUIRES' => {
-    'Test::More' => '0.96'
+  "ABSTRACT" => "simple .ini-file format",
+  "AUTHOR" => "Ricardo Signes <rjbs\@cpan.org>",
+  "BUILD_REQUIRES" => {
+    "Test::More" => "0.96"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.30'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'Config-INI',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Config::INI',
-  'PREREQ_PM' => {
-    'Carp' => '0',
-    'IO::File' => '1.14',
-    'IO::String' => '0',
-    'Mixin::Linewise::Readers' => '0',
-    'Mixin::Linewise::Writers' => '0'
+  "DISTNAME" => "Config-INI",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Config::INI",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "IO::File" => "1.14",
+    "IO::String" => 0,
+    "Mixin::Linewise::Readers" => 0,
+    "Mixin::Linewise::Writers" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'VERSION' => '0.018',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.019",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

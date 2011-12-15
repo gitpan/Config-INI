@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 package Config::INI::Reader;
-BEGIN {
-  $Config::INI::Reader::VERSION = '0.018';
+{
+  $Config::INI::Reader::VERSION = '0.019';
 }
 use Mixin::Linewise::Readers;
 # ABSTRACT: a subclassable .ini-file parser
@@ -40,8 +40,7 @@ sub read_handle {
       next;
     }
 
-    my $lineno = $handle->input_line_number;
-    Carp::croak "Syntax error at line $lineno: '$line'";
+    $self->handle_unparsed_line($handle, $line);
   }
 
   $self->finalize;
@@ -104,6 +103,13 @@ sub preprocess_line {
 }
 
 
+sub handle_unparsed_line {
+  my ($self, $handle, $line) = @_;
+  my $lineno = $handle->input_line_number;
+  Carp::croak "Syntax error at line $lineno: '$line'";
+}
+
+
 sub finalize { }
 
 
@@ -127,7 +133,7 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.018
+version 0.019
 
 =head1 SYNOPSIS
 
@@ -269,6 +275,13 @@ default implementation ignores lines that contain only whitespace or comments.
 This method is called to preprocess each line after it's read but before it's
 parsed.  The default implementation just strips inline comments.  Alterations
 to the line are made in place.
+
+=head2 handle_unparsed_line
+
+  $reader->handle_unparsed_line( $io, $line );
+
+This method is called when the reader encounters a line that doesn't look like
+anything it recognizes.  By default, it throws an exception.
 
 =head2 finalize
 
