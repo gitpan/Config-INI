@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Config::INI;
 {
-  $Config::INI::VERSION = '0.019';
+  $Config::INI::VERSION = '0.020';
 }
 # ABSTRACT: simple .ini-file format
 
@@ -10,6 +10,7 @@ package Config::INI;
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -18,7 +19,7 @@ Config::INI - simple .ini-file format
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 SYNOPSIS
 
@@ -106,4 +107,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

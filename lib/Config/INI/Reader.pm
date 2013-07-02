@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Config::INI::Reader;
 {
-  $Config::INI::Reader::VERSION = '0.019';
+  $Config::INI::Reader::VERSION = '0.020';
 }
 use Mixin::Linewise::Readers;
 # ABSTRACT: a subclassable .ini-file parser
@@ -37,7 +37,7 @@ sub read_handle {
 
     if (my ($name, $value) = $self->parse_value_assignment($line)) {
       $self->set_value($name, $value);
-      next;
+      next LINE;
     }
 
     $self->handle_unparsed_line($handle, $line);
@@ -125,6 +125,7 @@ sub new {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -133,7 +134,7 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.019
+version 0.020
 
 =head1 SYNOPSIS
 
@@ -314,4 +315,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

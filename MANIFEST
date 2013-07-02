@@ -10,8 +10,11 @@ examples/simple.ini
 lib/Config/INI.pm
 lib/Config/INI/Reader.pm
 lib/Config/INI/Writer.pm
+t/00-compile.t
 t/00-load.t
+t/000-report-versions-tiny.t
 t/reader-err.t
 t/reader.t
-t/release-pod-syntax.t
 t/writer.t
+xt/release/changes_has_content.t
+xt/release/pod-syntax.t
