@@ -29,11 +29,11 @@ my %WriteMakefileArgs = (
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "File::Find" => 0,
-    "File::Temp" => 0,
-    "Test::More" => "0.96"
+    "Capture::Tiny" => 0,
+    "Test::More" => "0.96",
+    "blib" => 0
   },
-  "VERSION" => "0.020",
+  "VERSION" => "0.021",
   "test" => {
     "TESTS" => "t/*.t"
   }
