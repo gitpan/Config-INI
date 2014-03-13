@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Config::INI;
 # ABSTRACT: simple .ini-file format
-$Config::INI::VERSION = '0.022';
+$Config::INI::VERSION = '0.023';
 # =head1 SYNOPSIS
 #
 # Config-INI comes with code for reading F<.ini> files:
@@ -93,7 +93,7 @@ Config::INI - simple .ini-file format
 
 =head1 VERSION
 
-version 0.022
+version 0.023
 
 =head1 SYNOPSIS
 

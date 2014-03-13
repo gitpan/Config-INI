@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 package Config::INI::Reader;
-$Config::INI::Reader::VERSION = '0.022';
-use Mixin::Linewise::Readers;
+$Config::INI::Reader::VERSION = '0.023';
+use Mixin::Linewise::Readers 0.100;
 # ABSTRACT: a subclassable .ini-file parser
 
 # =head1 SYNOPSIS
@@ -317,7 +317,7 @@ Config::INI::Reader - a subclassable .ini-file parser
 
 =head1 VERSION
 
-version 0.022
+version 0.023
 
 =head1 SYNOPSIS
 

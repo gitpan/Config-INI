@@ -1,5 +1,9 @@
 Changelog for Config-INI
 
+0.023     2014-03-13 10:21:15+01:00 Europe/Paris
+        - specify minimum Mixin::Linewise requirement (thanks, Andreas Koenig
+          and Smylers)
+
 0.022     2014-01-30 16:57:43-05:00 America/New_York
         - remove the last few places IO::String was used (thanks, Graham Knop)
 
