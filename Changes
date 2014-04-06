@@ -1,5 +1,11 @@
 Changelog for Config-INI
 
+0.024     2014-04-05 21:31:54-04:00 America/New_York
+        - MIGHT BREAK YOUR CODE (but probably won't):
+          handle_unparsed_line now receives its arguments in reversed order
+        - new methods exist and more methods now receive the filehandle to make
+          subclassing more flexible
+
 0.023     2014-03-13 10:21:15+01:00 Europe/Paris
         - specify minimum Mixin::Linewise requirement (thanks, Andreas Koenig
           and Smylers)
